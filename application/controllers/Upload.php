@@ -91,12 +91,10 @@ class Upload extends CI_Controller{
           echo "gagal";
         }        
       }else{
-        // $upload_data = $this->upload->data();
-        // $name = $upload_data['file_name'];
-        // $config['file_name'] = $judul;
+
         $data = [
           'judul' => $this->input->post('judul'),
-          // 'gambar' => $name
+          
         ];
         
         // update file di database
@@ -113,47 +111,7 @@ class Upload extends CI_Controller{
     }
     
   }
-  
-  public function edit_aksi_()
-  {
-    $id = $this->input->post('id');
-    $judul = $this->input->post('judul');
-    // tampung data gambar dari id
-    $idGambar = $this->UploadModel->get_id($id)->row();
-    $data = './assets/upload_gambar/'. $idGambar->gambar;
-    
-    // update file dulu di dalam folder, jika berhasil update di databasenya
-    if(is_readable($data) && unlink($data)){
-      
-      $config['upload_path']          = './assets/upload_gambar/';
-      $config['allowed_types']        = 'gif|jpg|png';
-      $config['file_name']            = $judul;
-      $config['overwrite']            = TRUE;
 
-      $this->load->library('upload', $config);
-      if(!$this->upload->do_upload('gambar')){
-        echo "Gagal";
-      }else{
-        $upload_data = $this->upload->data();
-        $name = $upload_data['file_name'];
-
-        $data = [
-          'judul' => $this->input->post('judul'),
-          'gambar' => $name
-        ];
-        // update file di database
-        $update = $this->UploadModel->update_gambar($id,$data);
-        if ($update) {
-          redirect();
-        } else {
-          echo "gagal";
-        }        
-      }
-    }else{
-      echo "gagal hapus";
-    }
-    
-  }
 
   
 
